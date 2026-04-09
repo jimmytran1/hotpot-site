@@ -1,26 +1,246 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand */
+  --brand-red:      oklch(42% 0.19 25);
+  --brand-red-deep: oklch(28% 0.14 25);
+  --brand-gold:     oklch(72% 0.13 55);
+
+  /* Hero / overlay channel values — used as oklch(var(--x) / alpha) */
+  --hero-dark:      10% 0.02  25;
+  --overlay-warm:   10% 0.025 25;
+  --vignette-dark:   8% 0.02  25;
+
+  /* Light mode surfaces — all neutrals tinted toward brand hue */
+  --surface-0: oklch(97%  0.005 30);
+  --surface-1: oklch(93%  0.008 30);
+  --surface-2: oklch(88%  0.010 30);
+  --text-primary:   oklch(14% 0.015 30);
+  --text-secondary: oklch(38% 0.010 30);
+  --text-muted:     oklch(58% 0.008 30);
+  --border:         oklch(84% 0.008 30);
+
+  --background: var(--surface-0);
+  --foreground: var(--text-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-0: oklch(12% 0.015 30);
+    --surface-1: oklch(17% 0.015 30);
+    --surface-2: oklch(23% 0.015 30);
+    --text-primary:   oklch(95% 0.005 30);
+    --text-secondary: oklch(72% 0.008 30);
+    --text-muted:     oklch(52% 0.008 30);
+    --border:         oklch(28% 0.012 30);
+
+    --background: var(--surface-0);
+    --foreground: var(--text-primary);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* ── Brand color utilities ───────────────────────────────
+     Registers bg-brand-red, text-brand-gold, etc.
+  ──────────────────────────────────────────────────────── */
+  --color-brand-red:      var(--brand-red);
+  --color-brand-red-deep: var(--brand-red-deep);
+  --color-brand-gold:     var(--brand-gold);
+  --color-hero:           oklch(var(--hero-dark));
+
+  /* ── Fonts ───────────────────────────────────────────────
+     font-display → Rozha One   font-sans → Jost
+  ──────────────────────────────────────────────────────── */
+  --font-display: var(--font-rozha);
+  --font-sans:    var(--font-jost);
+
+  /* ── Type scale ──────────────────────────────────────────
+     display  fluid hero headline  2.75rem → 5.5rem
+     eyebrow  10px  category labels, pre-headlines
+     ui       11px  nav links, button text, caps UI chrome
+     body-sm  13px  secondary body copy
+  ──────────────────────────────────────────────────────── */
+  --font-size-display: clamp(3rem, 8vw, 5.5rem);
+  --font-size-eyebrow: 0.625rem;
+  --font-size-ui:      0.6875rem;
+  --font-size-body-sm: 0.8125rem;
+
+  /* ── Tracking scale ──────────────────────────────────────
+     track-btn    buttons & dense UI     0.20em
+     track-nav    nav links & labels     0.22em
+     track-label  eyebrow / caps labels  0.30em
+  ──────────────────────────────────────────────────────── */
+  --letter-spacing-track-btn:   0.20em;
+  --letter-spacing-track-nav:   0.22em;
+  --letter-spacing-track-label: 0.30em;
+
+  /* ── Line-height ─────────────────────────────────────────
+     leading-display  tight display headline rhythm
+     leading-body     body copy at comfortable reading rhythm
+  ──────────────────────────────────────────────────────── */
+  --line-height-display: 0.92;
+  --line-height-body:    1.75;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-jost), system-ui, sans-serif;
+}
+
+/* ─── Display type ───────────────────────────────────────── */
+
+.text-display {
+  font-size: var(--font-size-display);
+}
+
+.leading-display {
+  line-height: var(--line-height-display);
+}
+
+/* ─── Buttons ────────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--brand-red);
+  color: oklch(98% 0 0);
+  transition: transform 0.18s ease;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 25%,
+    oklch(100% 0 0 / 0.22) 50%,
+    transparent 75%,
+    transparent 100%
+  );
+  transform: translateX(-200%);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.btn-primary:hover::before {
+  transform: translateX(200%);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-label {
+  position: relative;
+}
+
+.btn-label::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-secondary:hover .btn-label::after {
+  width: 100%;
+}
+
+.btn-arrow {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-secondary:hover .btn-arrow {
+  transform: translateX(5px);
+}
+
+/* ─── Hero overlays ──────────────────────────────────────── */
+
+/* Bottom-heavy warm gradient — darkens toward base */
+.hero-overlay {
+  background: linear-gradient(
+    to top,
+    oklch(var(--overlay-warm) / 0.95) 0%,
+    oklch(var(--overlay-warm) / 0.55) 40%,
+    oklch(var(--overlay-warm) / 0.15) 100%
+  );
+}
+
+/* Radial edge vignette — subtle depth around perimeter */
+.hero-vignette {
+  background: radial-gradient(
+    ellipse 140% 100% at 50% 100%,
+    transparent 20%,
+    oklch(var(--vignette-dark) / 0.38) 100%
+  );
+}
+
+/* ─── Focus accessibility ─────────────────────────────────── */
+
+/* Visible keyboard focus ring — suits dark hero context */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Animations ─────────────────────────────────────────── */
+
+@keyframes steamRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  12% { opacity: 0.65; }
+  80% { opacity: 0.25; }
+  100% {
+    transform: translateY(-220px) translateX(var(--drift, 10px)) scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
