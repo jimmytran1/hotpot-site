@@ -61,8 +61,7 @@ export function MobileNav() {
         role="dialog"
         aria-modal="true"
         aria-label="Navigation"
-        // @ts-expect-error — inert is valid HTML but not yet in React's types for all setups
-        inert={open ? undefined : ""}
+        inert={open ? undefined : true}
         className="fixed inset-y-0 right-0 z-50 w-72 flex flex-col backdrop-blur-xl border-l border-white/7 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
         style={{
           background: "oklch(var(--hero-dark) / 0.97)",
