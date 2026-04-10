@@ -1,6 +1,8 @@
 import type { CSSProperties } from "react";
 import { TextReveal } from "@/components/TextReveal";
 import { Navigation } from "@/components/Navigation";
+import { ContactSection } from "@/components/ContactSection";
+import { MenuSection } from "@/components/MenuSection";
 
 /* ─── Steam particle data ─────────────────────────────────── */
 const STEAM: { left: string; delay: string; drift: string; size: number; dur: string }[] = [
@@ -34,6 +36,8 @@ function anim(name: string, duration: string, delay: string): CSSProperties {
 export default function Home() {
   return (
     <>
+      <Navigation />
+
       {/* HERO */}
       <div className="relative h-svh overflow-hidden bg-hero">
 
@@ -81,11 +85,8 @@ export default function Home() {
         {/* Content layer */}
         <div className="absolute inset-0 z-10 flex flex-col">
 
-          {/* Navigation */}
-          <Navigation />
-
-          {/* Hero copy */}
-          <div className="flex-1 flex flex-col justify-end px-8 pb-14 md:px-14 md:pb-16">
+          {/* Hero copy — pt accounts for fixed nav height */}
+          <div className="flex-1 flex flex-col justify-end px-8 pb-14 md:px-14 md:pb-16" style={{ paddingTop: "var(--nav-h)" }}>
             <div className="max-w-4xl">
 
               {/* Eyebrow label */}
@@ -148,15 +149,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* TEMP — placeholder section */}
-      <section
-        className="min-h-screen flex items-center justify-center"
-        style={{ background: "oklch(8% 0.01 25)" }}
-      >
-        <p className="font-sans text-ui tracking-track-label text-white/15">
-          MENU — COMING SOON
-        </p>
-      </section>
+      <MenuSection />
+
+      <ContactSection />
     </>
   );
 }

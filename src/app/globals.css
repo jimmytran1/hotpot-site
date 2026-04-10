@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  /* Layout */
+  --nav-h: 72px;
+
   /* Brand */
   --brand-red:      oklch(42% 0.19 25);
   --brand-red-deep: oklch(28% 0.14 25);
@@ -196,6 +199,38 @@ body {
   );
 }
 
+/* ─── Site nav background ────────────────────────────────────
+   Mobile: always dark (hamburger needs a readable background).
+   Desktop (md+): transparent over hero, dark once scrolled.
+─────────────────────────────────────────────────────────── */
+
+.site-nav {
+  /* Default: transparent (desktop at top of page) */
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+  transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+}
+
+/* Mobile: always dark — hamburger needs a readable bg */
+@media (max-width: 767px) {
+  .site-nav {
+    background: oklch(10% 0.02 25 / 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid oklch(22% 0.015 25);
+  }
+}
+
+/* Scrolled: dark on all viewports */
+.site-nav.scrolled {
+  background: oklch(10% 0.02 25 / 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid oklch(22% 0.015 25);
+}
+
 /* ─── Focus accessibility ─────────────────────────────────── */
 
 /* Visible keyboard focus ring — suits dark hero context */
@@ -203,6 +238,38 @@ body {
   outline: 2px solid var(--brand-gold);
   outline-offset: 3px;
   border-radius: 1px;
+}
+
+/* ─── Contact form fields ─────────────────────────────────── */
+
+.contact-field {
+  border-bottom: 1px solid oklch(84% 0.008 30);
+  transition: border-color 0.2s ease;
+}
+
+.contact-field:focus-within {
+  border-color: var(--brand-red);
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  padding-block: 0.5rem;
+  color: oklch(14% 0.015 30);
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+  color: oklch(62% 0.008 30);
+  opacity: 1;
+}
+
+/* ─── Hide scrollbar on overflow-x nav ───────────────────── */
+
+[role="tablist"]::-webkit-scrollbar {
+  display: none;
 }
 
 /* Respect reduced-motion preference */
