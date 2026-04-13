@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const NAV_LINKS = ["Menu", "About", "Gallery"] as const;
+const NAV_LINKS = ["Menu", "About"] as const;
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);

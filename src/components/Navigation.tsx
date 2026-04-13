@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { MobileNav } from "@/components/MobileNav";
 
-const NAV_LINKS = ["Menu", "About", "Gallery"] as const;
+const NAV_LINKS = ["Menu", "About"] as const;
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
