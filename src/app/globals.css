@@ -219,12 +219,17 @@ body {
   }
 }
 
-/* Scrolled: dark with blur on desktop */
+/* Scrolled: dark on all viewports, blur only on desktop */
 .site-nav.scrolled {
   background: rgb(20, 10, 8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgb(50, 34, 32);
+}
+
+@media (min-width: 768px) {
+  .site-nav.scrolled {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
 }
 
 /* ─── Focus accessibility ─────────────────────────────────── */
