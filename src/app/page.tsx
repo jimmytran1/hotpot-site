@@ -3,6 +3,7 @@ import { TextReveal } from "@/components/TextReveal";
 import { Navigation } from "@/components/Navigation";
 import { ContactSection } from "@/components/ContactSection";
 import { MenuSection } from "@/components/MenuSection";
+import { Footer } from "@/components/Footer";
 
 /* ─── Steam particle data ─────────────────────────────────── */
 const STEAM: { left: string; delay: string; drift: string; size: number; dur: string }[] = [
@@ -91,9 +92,8 @@ export default function Home() {
 
               {/* Eyebrow label */}
               <div className="flex items-center gap-4 mb-5" style={anim("fadeInUp", "0.8s", "0.1s")}>
-                <div className="w-7 h-px shrink-0 bg-brand-gold" />
                 <p className="font-sans font-normal text-eyebrow tracking-track-label text-white/45">
-                  DINE IN &nbsp;·&nbsp; <span className="whitespace-nowrap">HOTPOT EXPERIENCE</span>
+                  LITTLETON, CO &nbsp;·&nbsp; <span className="whitespace-nowrap">ALL YOU CAN EAT</span>
                 </p>
               </div>
 
@@ -117,30 +117,31 @@ export default function Home() {
 
               {/* Body + CTAs */}
               <div
-                className="flex flex-col gap-6 sm:flex-row sm:items-end sm:gap-12"
+                className="flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-12"
                 style={anim("fadeInUp", "0.9s", "1.15s")}
               >
-                <p className="font-sans font-light text-body-sm leading-body text-white/50 max-w-[36ch]">
-                  Gather around our signature broths, hand-selected cuts, and
-                  the time-honored ritual of cooking together. An experience
-                  made for those who believe the best meals are never eaten
-                  alone.
+                <p className="font-sans font-light text-body-sm leading-body text-white/65 max-w-[36ch]">
+                  Gather around rich broths, curated meats, and the timeless joy of cooking together, an experience meant to be shared.
                 </p>
 
-                <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-7 shrink-0">
-                  <a
-                    href="#reservations"
-                    className="focus-ring btn-primary font-sans font-semibold whitespace-nowrap px-7 py-3.5 text-ui tracking-track-btn w-auto"
-                  >
-                    RESERVE A TABLE
-                  </a>
-                  <a
-                    href="#menu"
-                    className="focus-ring btn-secondary font-sans font-medium whitespace-nowrap text-ui tracking-track-btn text-white/60 hover:text-white transition-colors duration-200"
-                  >
-                    <span className="btn-label">VIEW MENU</span>
-                    <span className="btn-arrow">→</span>
-                  </a>
+                <div className="flex flex-col items-start gap-2.5 shrink-0">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <a
+                      href="#menu"
+                      className="focus-ring btn-primary font-sans font-semibold whitespace-nowrap px-5 py-2.5 text-ui tracking-track-btn"
+                    >
+                      VIEW MENU
+                    </a>
+                    <a
+                      href="tel:+17208262572"
+                      className="focus-ring btn-ghost font-sans font-medium whitespace-nowrap px-5 py-2.5 text-ui tracking-track-btn"
+                    >
+                      CALL TO RESERVE
+                    </a>
+                  </div>
+                  <p className="font-sans font-light text-eyebrow tracking-track-label text-white/45">
+                    Walk-ins welcome · No reservation needed for 4 or fewer
+                  </p>
                 </div>
               </div>
 
@@ -152,6 +153,8 @@ export default function Home() {
       <MenuSection />
 
       <ContactSection />
+
+      <Footer />
     </>
   );
 }

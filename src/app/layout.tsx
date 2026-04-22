@@ -15,9 +15,9 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Hotpot — Dine-In Experience",
+  title: "Hotpot Den — Dine-In Experience",
   description:
-    "Family-style hotpot dining with rich broths, fresh ingredients, and the joy of sharing.",
+    "All-you-can-eat hotpot in Littleton, CO. Rich broths, fresh ingredients, and the joy of sharing.",
 };
 
 export default function RootLayout({

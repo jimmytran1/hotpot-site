@@ -99,9 +99,12 @@ const SCROLL_MARGIN = "124px";
 export function MenuSection() {
   const [activeTab, setActiveTab] = useState<string>("broths");
   const [hoveredBroth, setHoveredBroth] = useState<number | null>(null);
-  const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
-  const navRef      = useRef<HTMLDivElement>(null);
-  const isMounted   = useRef(false);
+  const sectionRefs       = useRef<Map<string, HTMLElement>>(new Map());
+  const navRef            = useRef<HTMLDivElement>(null);
+  const isMounted         = useRef(false);
+  const isManualScroll    = useRef(false);
+  const lastClickedTab    = useRef<string | null>(null);
+  const manualScrollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* ── Intersection observer for active tab ─────────────── */
   useEffect(() => {
@@ -112,7 +115,10 @@ export function MenuSection() {
       if (!el) return;
 
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveTab(id); },
+        ([entry]) => {
+          // Suppress during manual tab click to avoid mid-scroll interference
+          if (entry.isIntersecting && !isManualScroll.current) setActiveTab(id);
+        },
         /*
           Detection window: 10%–25% from viewport top.
           After scrollIntoView with SCROLL_MARGIN (124px), a section
@@ -128,9 +134,11 @@ export function MenuSection() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  /* ── Keep active tab in view on mobile (skip mount) ────── */
+  /* ── Keep active tab in view on mobile (skip mount + clicks) ── */
   useEffect(() => {
     if (!isMounted.current) { isMounted.current = true; return; }
+    // Skip when the user explicitly clicked the tab — it's already visible
+    if (lastClickedTab.current === activeTab) { lastClickedTab.current = null; return; }
     if (!navRef.current) return;
     const activeEl = navRef.current.querySelector(`[data-tab="${activeTab}"]`);
     if (!activeEl) return;
@@ -144,7 +152,12 @@ export function MenuSection() {
   }
 
   function handleTabClick(id: string) {
+    lastClickedTab.current = id;
+    isManualScroll.current = true;
+    setActiveTab(id); // immediately reflect click in the UI
     sectionRefs.current.get(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (manualScrollTimer.current) clearTimeout(manualScrollTimer.current);
+    manualScrollTimer.current = setTimeout(() => { isManualScroll.current = false; }, 1000);
   }
 
   return (
@@ -154,7 +167,7 @@ export function MenuSection() {
       <div className="max-w-6xl mx-auto px-8 md:px-14 pt-24 md:pt-32 pb-12">
         <div className="flex items-center gap-4 mb-6">
           <div className="w-7 h-px shrink-0" style={{ background: GOLD }} />
-          <p className="font-sans font-normal text-eyebrow tracking-track-label" style={{ color: MUTED }}>
+          <p className="font-sans font-medium tracking-track-label" style={{ color: MUTED, fontSize: "0.75rem" }}>
             ALL YOU CAN EAT · 2 HOUR LIMIT
           </p>
         </div>
@@ -167,29 +180,53 @@ export function MenuSection() {
             THE MENU.
           </h2>
 
-          {/* Pricing */}
-          <div
-            className="grid grid-cols-2 sm:grid-cols-4 gap-px"
-            style={{ background: BORDER }}
-          >
-            {PRICING.map(({ label, price, note }) => (
-              <dl key={label} className="flex flex-col gap-1 px-5 py-4" style={{ background: SURFACE }}>
-                <dt className="font-sans font-normal text-eyebrow tracking-track-label" style={{ color: MUTED }}>
-                  {label.toUpperCase()}
-                </dt>
-                <dd
-                  className="font-display"
-                  style={{ color: RED, fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1 }}
-                >
-                  {price}
-                </dd>
-                {note && (
-                  <dd className="font-sans font-light text-eyebrow tracking-track-label" style={{ color: MUTED }}>
-                    {note}
+          {/* Pricing — open grid on mobile, bordered panel on desktop */}
+          <div>
+            {/* Mobile: clean open 2×2, no box borders */}
+            <div className="sm:hidden grid grid-cols-2 gap-x-10 gap-y-7">
+              {PRICING.map(({ label, price, note }) => (
+                <dl key={label} className="flex flex-col gap-1.5">
+                  <dt className="font-sans font-normal text-eyebrow tracking-track-label" style={{ color: MUTED }}>
+                    {label.toUpperCase()}
+                  </dt>
+                  <dd
+                    className="font-display"
+                    style={{ color: RED, fontSize: "1.75rem", lineHeight: 1 }}
+                  >
+                    {price}
                   </dd>
-                )}
-              </dl>
-            ))}
+                  {note && (
+                    <dd className="font-sans font-light text-eyebrow tracking-track-label" style={{ color: MUTED }}>
+                      {note}
+                    </dd>
+                  )}
+                </dl>
+              ))}
+            </div>
+            {/* Desktop: bordered 4-col panel */}
+            <div
+              className="hidden sm:grid sm:grid-cols-4 gap-px"
+              style={{ background: BORDER }}
+            >
+              {PRICING.map(({ label, price, note }) => (
+                <dl key={label} className="flex flex-col gap-1 px-5 py-4" style={{ background: SURFACE }}>
+                  <dt className="font-sans font-normal text-eyebrow tracking-track-label" style={{ color: MUTED }}>
+                    {label.toUpperCase()}
+                  </dt>
+                  <dd
+                    className="font-display"
+                    style={{ color: RED, fontSize: "clamp(1.5rem, 2.5vw, 1.875rem)", lineHeight: 1 }}
+                  >
+                    {price}
+                  </dd>
+                  {note && (
+                    <dd className="font-sans font-light text-eyebrow tracking-track-label" style={{ color: MUTED }}>
+                      {note}
+                    </dd>
+                  )}
+                </dl>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -271,7 +308,7 @@ export function MenuSection() {
                     </div>
                     <span
                       className="mt-2 block font-sans font-medium tracking-track-label text-center overflow-hidden"
-                      style={{ color: MID, fontSize: "0.6875rem", lineHeight: 1.3, maxWidth: "calc(100% - 10px)" }}
+                      style={{ color: MID, fontSize: "0.75rem", lineHeight: 1.3, maxWidth: "calc(100% - 10px)" }}
                     >
                       {name.toUpperCase()}
                     </span>
@@ -311,7 +348,7 @@ export function MenuSection() {
                 </div>
                 <span
                   className="mt-2 block font-sans font-medium tracking-track-label text-center overflow-hidden"
-                  style={{ color: MID, fontSize: "clamp(0.6875rem, 1.1vw, 0.875rem)", lineHeight: 1.3, maxWidth: "calc(100% - 24px)" }}
+                  style={{ color: MID, fontSize: "clamp(0.75rem, 1.1vw, 0.875rem)", lineHeight: 1.3, maxWidth: "calc(100% - 24px)" }}
                 >
                   {name.toUpperCase()}
                 </span>
@@ -348,7 +385,7 @@ function CategoryLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-4">
       <div className="w-7 h-px shrink-0" style={{ background: GOLD }} />
-      <p className="font-sans font-normal text-eyebrow tracking-track-label" style={{ color: MUTED }}>
+      <p className="font-sans font-medium tracking-track-label" style={{ color: MUTED, fontSize: "0.75rem" }}>
         {typeof children === "string" ? children.toUpperCase() : children}
       </p>
     </div>
@@ -361,12 +398,6 @@ function ItemGrid({ items }: { items: readonly string[] }) {
       className="mt-6"
       style={{
         display: "grid",
-        /*
-          min 160px so items stay readable on narrow screens.
-          On mobile (~311px content): 160px min → 1 column.
-          On tablet (~640px): 2 columns.
-          On desktop (~1088px): 4–5 columns.
-        */
         gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
         columnGap: "2rem",
         rowGap: 0,
@@ -379,10 +410,6 @@ function ItemGrid({ items }: { items: readonly string[] }) {
           className="font-sans font-light py-3"
           style={{
             color: MID,
-            /*
-              14px on mobile (above the 14px minimum),
-              scales to 13px (text-body-sm) on desktop.
-            */
             fontSize: "clamp(0.875rem, 1.2vw, 0.8125rem)",
             lineHeight: 1.5,
             borderBottom: `1px solid ${BORDER}`,

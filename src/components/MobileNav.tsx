@@ -2,20 +2,18 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const NAV_LINKS = ["Menu", "About"] as const;
+const NAV_LINKS = ["Menu"] as const;
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Lock body scroll while drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  // Close on Escape; manage focus on open/close
   useEffect(() => {
     if (open) {
       closeButtonRef.current?.focus();
@@ -34,7 +32,7 @@ export function MobileNav() {
       {/* Hamburger — 44×44px touch target */}
       <button
         ref={hamburgerRef}
-        className="focus-ring md:hidden flex items-center justify-center w-11 h-11 -mr-2"
+        className="focus-ring md:hidden flex items-center justify-center w-11 h-11"
         aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         aria-controls="mobile-nav-drawer"
@@ -55,7 +53,7 @@ export function MobileNav() {
         />
       )}
 
-      {/* Drawer — inert when hidden so keyboard can't reach it */}
+      {/* Drawer */}
       <div
         id="mobile-nav-drawer"
         role="dialog"
@@ -68,10 +66,10 @@ export function MobileNav() {
           transform: open ? "translateX(0)" : "translateX(100%)",
         }}
       >
-        {/* Drawer header */}
+        {/* Header */}
         <div className="flex items-center justify-between px-7 pt-7 pb-4">
           <span className="font-display text-xl tracking-track-btn text-white">
-            HOTPOT
+            HOTPOT DEN
           </span>
           <button
             ref={closeButtonRef}
@@ -87,15 +85,15 @@ export function MobileNav() {
         </div>
 
         {/* Divider */}
-        <div className="mx-7 h-px bg-white/7" />
+        <div className="mx-7 h-px bg-white/10" />
 
-        {/* Nav links — each row ≥44px tall */}
-        <nav className="flex-1 flex flex-col px-7 pt-4 gap-1">
+        {/* Nav links */}
+        <nav className="flex-1 flex flex-col px-7 pt-5 gap-0">
           {NAV_LINKS.map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
-              className="focus-ring flex items-center min-h-11 font-sans font-medium text-ui tracking-track-nav text-white/60 hover:text-white transition-colors duration-200"
+              className="focus-ring flex items-center min-h-12 font-sans font-normal text-sm tracking-widest text-white/65 hover:text-white transition-colors duration-200"
               onClick={() => setOpen(false)}
             >
               {link.toUpperCase()}
@@ -103,14 +101,35 @@ export function MobileNav() {
           ))}
         </nav>
 
-        {/* Reserve CTA */}
-        <div className="px-7 pb-10 pt-4">
+        {/* Contact + CTA */}
+        <div className="px-7 pb-10 pt-2 flex flex-col gap-3">
+          <div className="flex flex-col gap-1.5">
+            <p className="font-sans font-normal text-eyebrow tracking-track-label" style={{ color: "oklch(100% 0 0 / 0.28)" }}>
+              CONTACT
+            </p>
+            <a
+              href="tel:+17208262572"
+              className="focus-ring font-sans font-light text-sm text-white/55 hover:text-white/80 transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              (720) 826-2572
+            </a>
+            <a
+              href="https://maps.google.com/maps?q=Hotpot+Den+5934+S+Kipling+Pkwy+Ste+E+Littleton+CO+80127"
+              target="_blank"
+              rel="noreferrer"
+              className="focus-ring font-sans font-light text-sm text-white/55 hover:text-white/80 transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              5934 S Kipling Pkwy, Littleton
+            </a>
+          </div>
           <a
-            href="#reservations"
+            href="tel:+17208262572"
             className="focus-ring flex items-center justify-center min-h-11 w-full font-sans font-medium text-ui tracking-track-nav border border-white/30 text-white/80 hover:border-white/60 hover:text-white transition-all duration-200"
             onClick={() => setOpen(false)}
           >
-            RESERVE A TABLE
+            CALL TO RESERVE
           </a>
         </div>
       </div>

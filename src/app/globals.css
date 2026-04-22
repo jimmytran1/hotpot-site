@@ -109,39 +109,36 @@ body {
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  position: relative;
-  overflow: hidden;
   background: var(--brand-red);
   color: oklch(98% 0 0);
-  transition: transform 0.18s ease;
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    transparent 25%,
-    oklch(100% 0 0 / 0.22) 50%,
-    transparent 75%,
-    transparent 100%
-  );
-  transform: translateX(-200%);
-  transition: transform 0.6s ease;
-  pointer-events: none;
-}
-
-.btn-primary:hover::before {
-  transform: translateX(200%);
+  transition: background-color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary:hover {
+  background: color-mix(in oklch, var(--brand-red) 82%, oklch(0% 0 0));
   transform: translateY(-2px);
 }
 
 .btn-primary:active {
+  background: var(--brand-red-deep);
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid oklch(100% 0 0 / 0.24);
+  color: oklch(100% 0 0 / 0.72);
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-ghost:hover {
+  border-color: oklch(100% 0 0 / 0.52);
+  color: oklch(100% 0 0);
+  transform: translateY(-1px);
+}
+
+.btn-ghost:active {
   transform: translateY(0) scale(0.98);
 }
 

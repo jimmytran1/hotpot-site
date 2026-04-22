@@ -2,15 +2,10 @@
 
 import { useState } from "react";
 
-const CONTACT_INFO = [
-  { label: "LOCATION", lines: ["2847 Larimer Street", "Denver, CO 80205"] },
-  { label: "PHONE",    lines: ["(720) 555-0182"] },
-  { label: "EMAIL",    lines: ["hello@hotpot.com"] },
-] as const;
-
 const MUTED  = "oklch(58% 0.008 30)";
 const MID    = "oklch(38% 0.010 30)";
 const DARK   = "oklch(14% 0.015 30)";
+const RED    = "oklch(42% 0.19 25)";
 
 export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
@@ -40,18 +35,69 @@ export function ContactSection() {
             </h2>
 
             <div className="flex flex-col gap-8">
-              {CONTACT_INFO.map(({ label, lines }) => (
-                <div key={label}>
-                  <p className="font-sans font-normal text-eyebrow tracking-track-label mb-1.5" style={{ color: MUTED }}>
-                    {label}
-                  </p>
-                  {lines.map((line) => (
-                    <p key={line} className="font-sans font-light text-body-sm leading-body" style={{ color: MID }}>
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              ))}
+
+              {/* Location */}
+              <div>
+                <p className="font-sans font-normal text-eyebrow tracking-track-label mb-1.5" style={{ color: MUTED }}>LOCATION</p>
+                <a
+                  href="https://maps.google.com/maps?q=Hotpot+Den+Littleton+CO"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-sans font-light text-body-sm leading-body hover:underline"
+                  style={{ color: MID }}
+                >
+                  5934 S Kipling Pkwy Ste E<br />Littleton, CO 80127
+                </a>
+              </div>
+
+              {/* Phone */}
+              <div>
+                <p className="font-sans font-normal text-eyebrow tracking-track-label mb-1.5" style={{ color: MUTED }}>PHONE</p>
+                <a
+                  href="tel:+17208262572"
+                  className="font-sans font-light text-body-sm leading-body hover:underline"
+                  style={{ color: MID }}
+                >
+                  (720) 826-2572
+                </a>
+              </div>
+
+              {/* Email */}
+              <div>
+                <p className="font-sans font-normal text-eyebrow tracking-track-label mb-1.5" style={{ color: MUTED }}>EMAIL</p>
+                <a
+                  href="mailto:hotpotden@gmail.com"
+                  className="font-sans font-light text-body-sm leading-body hover:underline"
+                  style={{ color: MID }}
+                >
+                  hotpotden@gmail.com
+                </a>
+              </div>
+
+              {/* Hours */}
+              <div>
+                <p className="font-sans font-normal text-eyebrow tracking-track-label mb-1.5" style={{ color: MUTED }}>HOURS</p>
+                <p className="font-sans font-light text-body-sm leading-body" style={{ color: MID }}>Sun – Thu: 11 am – 9 pm</p>
+                <p className="font-sans font-light text-body-sm leading-body" style={{ color: MID }}>Fri – Sat: 11 am – 10 pm</p>
+              </div>
+
+              {/* Walk-in note */}
+              <div
+                className="py-4 px-5"
+                style={{ background: "oklch(94% 0.006 25)", borderTop: `2px solid ${RED}` }}
+              >
+                <p className="font-sans font-medium text-body-sm leading-body" style={{ color: DARK }}>
+                  Walk-ins welcome for parties of 4 or fewer.
+                </p>
+                <p className="font-sans font-light text-body-sm leading-body mt-1" style={{ color: MID }}>
+                  Groups of 6+ please{" "}
+                  <a href="tel:+17208262572" className="hover:underline" style={{ color: RED }}>
+                    call (720) 826-2572
+                  </a>{" "}
+                  to reserve.
+                </p>
+              </div>
+
             </div>
           </div>
 
@@ -130,8 +176,8 @@ export function ContactSection() {
         {/* ── Map embed ───────────────────────────────── */}
         <div className="mt-20" style={{ borderTop: "1px solid oklch(84% 0.008 30)" }}>
           <iframe
-            title="Hotpot Denver location"
-            src="https://maps.google.com/maps?q=2847+Larimer+St,+Denver,+CO+80205&output=embed"
+            title="Hotpot Den location"
+            src="https://maps.google.com/maps?q=Hotpot+Den+5934+S+Kipling+Pkwy+Ste+E+Littleton+CO+80127&output=embed"
             width="100%"
             height="400"
             loading="lazy"
