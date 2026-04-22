@@ -1,6 +1,7 @@
 "use client";
 
 const DARK_BG  = "oklch(10% 0.02 25)";
+const WHITE_70 = "oklch(100% 0 0 / 0.70)";
 const WHITE_60 = "oklch(100% 0 0 / 0.60)";
 const WHITE_40 = "oklch(100% 0 0 / 0.40)";
 const WHITE_25 = "oklch(100% 0 0 / 0.25)";
@@ -17,10 +18,10 @@ export function Footer() {
 
           {/* Brand */}
           <div>
-            <span className="font-display text-xl tracking-track-btn" style={{ color: WHITE_60 }}>
+            <span className="font-display text-xl tracking-track-btn" style={{ color: WHITE_70 }}>
               HOTPOT DEN
             </span>
-            <p className="mt-3 font-sans font-light text-body-sm leading-body" style={{ color: WHITE_25 }}>
+            <p className="mt-3 font-sans font-light text-body-sm leading-body" style={{ color: WHITE_40 }}>
               All you can eat · 2 hour limit<br />
               Littleton, CO
             </p>
@@ -38,7 +39,7 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <p className="font-sans font-normal text-eyebrow tracking-track-label mb-5" style={{ color: WHITE_25 }}>
+            <p className="font-sans font-normal text-eyebrow tracking-track-label mb-5" style={{ color: WHITE_40 }}>
               CONTACT
             </p>
             <div className="flex flex-col gap-2">
@@ -48,7 +49,7 @@ export function Footer() {
                 "(720) 826-2572",
                 "hotpotden@gmail.com",
               ].map((line) => (
-                <p key={line} className="font-sans font-light text-body-sm" style={{ color: WHITE_40 }}>
+                <p key={line} className="font-sans font-light text-body-sm" style={{ color: WHITE_60 }}>
                   {line}
                 </p>
               ))}
@@ -57,7 +58,7 @@ export function Footer() {
 
           {/* Hours */}
           <div>
-            <p className="font-sans font-normal text-eyebrow tracking-track-label mb-5" style={{ color: WHITE_25 }}>
+            <p className="font-sans font-normal text-eyebrow tracking-track-label mb-5" style={{ color: WHITE_40 }}>
               HOURS
             </p>
             <div className="flex flex-col gap-3">
@@ -66,12 +67,12 @@ export function Footer() {
                 { days: "Fri – Sat", time: "11 am – 10 pm" },
               ].map(({ days, time }) => (
                 <div key={days} className="flex justify-between gap-6">
-                  <span className="font-sans font-light text-body-sm" style={{ color: WHITE_40 }}>{days}</span>
-                  <span className="font-sans font-light text-body-sm" style={{ color: WHITE_40 }}>{time}</span>
+                  <span className="font-sans font-light text-body-sm" style={{ color: WHITE_60 }}>{days}</span>
+                  <span className="font-sans font-light text-body-sm" style={{ color: WHITE_60 }}>{time}</span>
                 </div>
               ))}
             </div>
-            <p className="mt-5 font-sans font-light text-eyebrow leading-body" style={{ color: WHITE_25 }}>
+            <p className="mt-5 font-sans font-light text-eyebrow leading-body" style={{ color: WHITE_40 }}>
               Walk-ins welcome for parties of 4 or fewer.<br />
               Groups of 6+ please call to reserve.
             </p>
@@ -84,7 +85,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <p className="font-sans font-light text-eyebrow" style={{ color: WHITE_25 }}>
+          <p className="font-sans font-light text-eyebrow" style={{ color: WHITE_40 }}>
             © 2026 Hotpot Den. All rights reserved.
           </p>
           <nav className="flex gap-6">
@@ -96,9 +97,9 @@ export function Footer() {
                 key={label}
                 href={href}
                 className="focus-ring font-sans font-medium text-ui tracking-track-nav transition-colors duration-200"
-                style={{ color: WHITE_25 }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = WHITE_60)}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = WHITE_25)}
+                style={{ color: WHITE_40 }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = WHITE_70)}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = WHITE_40)}
               >
                 {label.toUpperCase()}
               </a>
