@@ -104,7 +104,7 @@ export function MobileNav() {
         </nav>
 
         {/* Contact + CTA */}
-        <div className="px-7 pb-10 pt-2 flex flex-col gap-3">
+        <div className="px-7 pt-2 flex flex-col gap-3" style={{ paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom))" }}>
           <div className="flex flex-col gap-1.5">
             <p className="font-sans font-normal text-eyebrow tracking-track-label" style={{ color: "oklch(100% 0 0 / 0.28)" }}>
               CONTACT

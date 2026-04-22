@@ -11,7 +11,7 @@ const RED      = "oklch(42% 0.19 25)";
 export function Footer() {
   return (
     <footer style={{ background: DARK_BG }}>
-      <div className="max-w-6xl mx-auto px-8 md:px-14 pt-16 pb-10">
+      <div className="max-w-6xl mx-auto px-8 md:px-14 pt-16" style={{ paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom))" }}>
 
         {/* Top grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 md:gap-16">

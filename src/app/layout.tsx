@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Rozha_One, Jost } from "next/font/google";
 import "./globals.css";
 
@@ -13,6 +13,10 @@ const jost = Jost({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
 });
+
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Hotpot Den — Dine-In Experience",
