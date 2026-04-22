@@ -8,6 +8,7 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const isMounted = useRef(false);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -15,6 +16,7 @@ export function MobileNav() {
   }, [open]);
 
   useEffect(() => {
+    if (!isMounted.current) { isMounted.current = true; return; }
     if (open) {
       closeButtonRef.current?.focus();
       const handler = (e: KeyboardEvent) => {

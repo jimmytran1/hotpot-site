@@ -139,10 +139,13 @@ export function MenuSection() {
     if (!isMounted.current) { isMounted.current = true; return; }
     // Skip when the user explicitly clicked the tab — it's already visible
     if (lastClickedTab.current === activeTab) { lastClickedTab.current = null; return; }
-    if (!navRef.current) return;
-    const activeEl = navRef.current.querySelector(`[data-tab="${activeTab}"]`);
+    const nav = navRef.current;
+    if (!nav) return;
+    const activeEl = nav.querySelector<HTMLElement>(`[data-tab="${activeTab}"]`);
     if (!activeEl) return;
-    activeEl.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+    // Scroll only the tab strip horizontally — never touch page scroll
+    const targetLeft = activeEl.offsetLeft - nav.offsetWidth / 2 + activeEl.offsetWidth / 2;
+    nav.scrollTo({ left: targetLeft, behavior: "smooth" });
   }, [activeTab]);
 
   function setRef(id: string) {
